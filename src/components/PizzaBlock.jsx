@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const PizzaBlock = ({title, types, sizes, price}) => {
+export const PizzaBlock = ({title, types, sizes, price, imageUrl}) => {
   const [activeType, setActiveType] = React.useState(0);
   const [activeSize, setActiveSize] = React.useState(0);
   const typeNames = ['тонкое', 'традиционное'];
@@ -10,7 +10,7 @@ export const PizzaBlock = ({title, types, sizes, price}) => {
     <div className="pizza-block">
     <img
       className="pizza-block__image"
-      src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
+      src={imageUrl}
       alt="Pizza"
     />
     <h4 className="pizza-block__title">{title}</h4>

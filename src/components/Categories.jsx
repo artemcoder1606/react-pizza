@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 export const Categories = () => {
-  const [categoryActiveIndex, setCategoryActiveIndex] = useState(0)
+  const [categoryActiveIndex, setCategoryActiveIndex] = React.useState(0)
 
   const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']
 
