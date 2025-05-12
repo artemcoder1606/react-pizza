@@ -393,8 +393,8 @@ export const Cart = () => {
                 </span>
               </div>
               <div class="cart__bottom-buttons">
-                <div
-                 
+                <a
+                  href="/"
                   class="button button--outline button--add go-back-btn"
                 >
                   <svg
@@ -416,7 +416,7 @@ export const Cart = () => {
                   <Link to="/">
                     <span>Вернуться назад</span>
                   </Link>
-                </div>
+                </a>
                 <div class="button pay-btn">
                   <span>Оплатить сейчас</span>
                 </div>
