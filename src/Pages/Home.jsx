@@ -18,30 +18,23 @@ export const Home = ({ searchValue, setSearchValue }) => {
   const order = `${
     activeSortItem.sortProperty.includes("-") ? `order=asc` : `order=desc`
   }`;
+  const search = `search=${searchValue}`;
 
   React.useEffect(() => {
     fetch(
-      `https://67877bf5c4a42c916106edd2.mockapi.io/items?${category}&${sortBy}&${order}`
+      `https://67877bf5c4a42c916106edd2.mockapi.io/items?${category}&${sortBy}&${order}&${search}`
     )
       .then((res) => res.json())
       .then((arr) => {
         setItems(arr);
         setIsLoading(false);
       });
-      window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
   }, [categoryIndex, activeSortItem, searchValue]);
   const skeleton = [...new Array(6)].map((_, index) => (
     <Skeleton key={index} />
   ));
-  const pizzas = items
-    .filter((obj) => {
-      if (obj && obj.title.toLowerCase().includes(searchValue.toLowerCase())) {
-        return true;
-      } else {
-        return false;
-      }
-    })
-    .map((obj, index) => <PizzaBlock key={index} {...obj} />);
+  const pizzas = items.map((obj, index) => <PizzaBlock key={index} {...obj} />);
   return (
     <>
       <div className="content__top">
