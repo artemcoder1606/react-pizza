@@ -5,23 +5,30 @@ import Skeleton from "../components/PizzaBlock/Skeleton";
 import { Sort } from "../components/Sort";
 import { Pagination } from "../components/Pagination";
 import {SearchContext} from '../App';
+import { setCategoryId } from "../redux/slices/FilterSlice";
+import { useSelector, useDispatch } from "react-redux";
 
 
 export const Home = () => {
   const { searchValue, setSearchValue } = React.useContext(SearchContext);
-  const [categoryIndex, setCategoryIndex] = React.useState(0);
   const [items, setItems] = React.useState([0]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [activeSortItem, setActiveSortItem] = React.useState({
-    name: "популярности(DESC)",
-    sortProperty: "rating",
-  });
+  
   const [pageNumber, setPageNumber] = React.useState(1);
 
+  const categoryIndex = useSelector(state => state.filter.categoryId)
+  const sortType = useSelector(state => state.filter.sort.sortProperty)
+  const dispatch = useDispatch();
+  console.log('sortType', sortType)
+
+  const setCategoryIndex =  (i) =>{ 
+      dispatch(setCategoryId(i))
+  }
+
   const category = categoryIndex > 0 ? `category=${categoryIndex}` : "";
-  const sortBy = `sortBy=${activeSortItem.sortProperty.replace("-", "")}`;
+  const sortBy = `sortBy=${sortType.replace("-", "")}`;
   const order = `${
-    activeSortItem.sortProperty.includes("-") ? `order=asc` : `order=desc`
+    sortType.includes("-") ? `order=asc` : `order=desc`
   }`;
   const search = `search=${searchValue}`;
 
@@ -35,7 +42,7 @@ export const Home = () => {
         setIsLoading(false);
       });
     window.scrollTo(0, 0);
-  }, [categoryIndex, activeSortItem, searchValue, pageNumber]);
+  }, [categoryIndex, sortType, searchValue, pageNumber]);
   const skeleton = [...new Array(6)].map((_, index) => (
     <Skeleton key={index} />
   ));
@@ -47,10 +54,7 @@ export const Home = () => {
           categoryIndex={categoryIndex}
           setCategoryIndex={(i) => setCategoryIndex(i)}
         />
-        <Sort
-          value={activeSortItem}
-          setActiveSortItem={(i) => setActiveSortItem(i)}
-        />
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isLoading ? skeleton : pizzas}</div>
