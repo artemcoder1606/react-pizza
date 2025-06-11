@@ -6,14 +6,20 @@ import {SearchContext} from '../../App';
 export const Search = () => {
 
   const {searchValue, setSearchValue} = React.useContext(SearchContext);
+  const inputRef = React.useRef();
+
+
+
   const clearInput = () => {
     setSearchValue('')
+    inputRef.current.focus();
   }
 
   return (
     <div className={styles.root}>
       <div className={styles.wrap}>
         <input
+          ref = {inputRef}
           value={searchValue}
           onChange={(e)=>setSearchValue(e.target.value)}
           className={styles.input}
