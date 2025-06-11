@@ -18,7 +18,6 @@ export const Sort = () => {
     setIsVisible(!isVisible);
   };
   const value = useSelector((state) => state.filter.sort);
-  console.log('state', value)
   const dispatch = useDispatch();
 
   const selectSortItem = (obj) => {
