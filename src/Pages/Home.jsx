@@ -7,6 +7,7 @@ import { Sort } from "../components/Sort";
 import { Pagination } from "../components/Pagination";
 import { SearchContext } from "../App";
 import { setCategoryId } from "../redux/slices/FilterSlice";
+import { setCurrentPage } from "../redux/slices/FilterSlice";
 import { useSelector, useDispatch } from "react-redux";
 
 export const Home = () => {
@@ -14,10 +15,10 @@ export const Home = () => {
   const [items, setItems] = React.useState([0]);
   const [isLoading, setIsLoading] = React.useState(true);
 
-  const [pageNumber, setPageNumber] = React.useState(1);
 
   const categoryIndex = useSelector((state) => state.filter.categoryId);
   const sortType = useSelector((state) => state.filter.sort.sortProperty);
+  const pageNumber = useSelector((state) => state.filter.currentPage);
   const dispatch = useDispatch();
 
   const setCategoryIndex = (i) => {
@@ -45,6 +46,9 @@ export const Home = () => {
     <Skeleton key={index} />
   ));
   const pizzas = items.map((obj, index) => <PizzaBlock key={index} {...obj} />);
+  const setPageNumber = (num) => {
+    dispatch(setCurrentPage(num));
+  }
   return (
     <>
       <div className="content__top">
