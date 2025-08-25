@@ -28,7 +28,6 @@ export const Sort = () => {
 
   React.useEffect(() => {
     const handleClickOutside = (e) => {
-      console.log("click");
       if (
         sortRef.current &&
         !e.target.closest(`.${sortRef.current.className}`)
