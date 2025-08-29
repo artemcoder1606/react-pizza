@@ -46,6 +46,20 @@ body {
     row-gap: 10px;
     flex-wrap: wrap;
   }
+
+  &__error {
+    padding-block: 50px;
+    text-align: center;
+    h2 {
+      font-size: 34px;
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+    p {
+      font-size: 18px;
+    }
+
+  }
 }
 
 .container {

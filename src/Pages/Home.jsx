@@ -14,6 +14,7 @@ import { list, Sort } from "../components/Sort";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import { Pagination } from "../components/Pagination";
 import { SearchContext } from "../App";
+import { fetchPizzas } from "../redux/slices/pizzaSlice";
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -23,11 +24,11 @@ export const Home = () => {
   const { categoryId, sort, currentPage } = useSelector(
     (state) => state.filter
   );
+  const { items, status } = useSelector((state) => state.pizza);
+
   const sortType = sort.sortProperty;
 
   const { searchValue } = React.useContext(SearchContext);
-  const [items, setItems] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
 
   const onChangeCategory = (id) => {
     dispatch(setCategoryId(id));
@@ -36,21 +37,21 @@ export const Home = () => {
     dispatch(setCurrentPage(id));
   };
 
-  const fetchPizzas = () => {
-    setIsLoading(true);
+  const getPizzas = async () => {
     const order = sortType.includes("-") ? "desc" : "asc";
     const search = searchValue ? `&search=${searchValue}` : "";
+    const category = categoryId > 0 ? `category=${categoryId}` : "";
+    const sortBy = `${sortType}`.replace("-", "");
 
-    axios
-      .get(
-        `https://67877bf5c4a42c916106edd2.mockapi.io/items?page=${currentPage}&limit=4&${
-          categoryId > 0 ? `category=${categoryId}` : ""
-        }&sortBy=${sortType.replace("-", "")}&order=${order}${search}`
-      )
-      .then((res) => {
-        setItems(res.data);
-        setIsLoading(false);
-      });
+    dispatch(
+      fetchPizzas({
+        order,
+        search,
+        category,
+        sortBy,
+        currentPage,
+      })
+    );
   };
 
   React.useEffect(() => {
@@ -70,7 +71,7 @@ export const Home = () => {
   React.useEffect(() => {
     window.scrollTo(0, 0);
     if (!isSearch.current) {
-      fetchPizzas();
+      getPizzas();
     }
     isSearch.current = false;
   }, [categoryId, sortType, searchValue, currentPage]);
@@ -100,11 +101,23 @@ export const Home = () => {
           <Sort />
         </div>
         <h2 className="content__title">Все пиццы</h2>
-        <div className="content__items">
-          {isLoading
-            ? [...new Array(6)].map((_, index) => <Skeleton key={index} />)
-            : pizzas}
-        </div>
+        {status === "failed" ? (
+          <div className="content__error">
+            <h2>
+              По вашему запросу питс не найдено <icon>😕</icon>
+            </h2>
+            <p>
+             Скорей всего, произошла какая-то чудовичная ошибка
+            </p>
+          </div>
+        ) : (
+          <div className="content__items">
+            {status === "loading"
+              ? [...new Array(6)].map((_, index) => <Skeleton key={index} />)
+              : pizzas}
+          </div>
+        )}
+
         <Pagination
           currentPage={currentPage}
           changeCurrentPage={changeCurrentPage}
