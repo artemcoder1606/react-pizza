@@ -10,8 +10,7 @@ export const fetchPizzas = createAsyncThunk(
         currentPage} = params;
     const { data } = await axios.get(
       `https://67877bf5c4a42c916106edd2.mockapi.io/items?page=${currentPage}&limit=4&${
-       `category=${category}` 
-      }&sortBy=${sortBy}&order=${order}${search}`
+       `${category}`}&sortBy=${sortBy}&order=${order}${search}`
     );
     return data;
   }
@@ -39,7 +38,6 @@ const pizzaSlice = createSlice({
       .addCase(fetchPizzas.fulfilled, (state, action) => {
         state.status = 'success';
         state.items = action.payload;
-        console.log(state.items )
       })
       .addCase(fetchPizzas.rejected, (state, action) => {
         state.status = 'failed';

@@ -1,15 +1,16 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../../redux/slices/cartSlice";
+import { NavLink } from "react-router";
 
 export const PizzaBlock = ({ title, types, sizes, price, imageUrl, id }) => {
   const [activeType, setActiveType] = React.useState(0);
   const [activeSize, setActiveSize] = React.useState(0);
   const typeNames = ["тонкое", "традиционное"];
   const dispatch = useDispatch();
-  const {items} = useSelector(state => state.cart);
-  const addedPizzas = items.find(obj => obj.id === id);
-  const addedCount = addedPizzas ? addedPizzas.count : '';
+  const { items } = useSelector((state) => state.cart);
+  const addedPizzas = items.find((obj) => obj.id === id);
+  const addedCount = addedPizzas ? addedPizzas.count : "";
 
   const clickToAddItem = () => {
     const obj = {
@@ -19,15 +20,19 @@ export const PizzaBlock = ({ title, types, sizes, price, imageUrl, id }) => {
       type: typeNames[activeType],
       price,
       imageUrl,
-      id
+      id,
     };
-    dispatch(addItem(obj))
+    dispatch(addItem(obj));
   };
 
   return (
     <div className="pizza-block">
-      <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
-      <h4 className="pizza-block__title">{title}</h4>
+      <NavLink to={`/pizza/${id}`}>
+        <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
+      </NavLink>
+      <NavLink to={`/pizza/${id}`}>
+        <h4 className="pizza-block__title">{title}</h4>
+      </NavLink>
       <div className="pizza-block__selector">
         <ul>
           {types.map((type, index) => (
@@ -54,7 +59,10 @@ export const PizzaBlock = ({ title, types, sizes, price, imageUrl, id }) => {
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">от {price} ₽</div>
-        <div className="button button--outline button--add" onClick={clickToAddItem}>
+        <div
+          className="button button--outline button--add"
+          onClick={clickToAddItem}
+        >
           <svg
             width="12"
             height="12"
@@ -68,7 +76,7 @@ export const PizzaBlock = ({ title, types, sizes, price, imageUrl, id }) => {
             />
           </svg>
           <span>Добавить</span>
-          {addedCount > 0 ? <i>{addedCount}</i>:''}
+          {addedCount > 0 ? <i>{addedCount}</i> : ""}
         </div>
       </div>
     </div>

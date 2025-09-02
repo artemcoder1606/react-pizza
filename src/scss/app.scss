@@ -29,6 +29,8 @@ body {
   &__title {
     margin: 35px 0;
     font-weight: 700;
+    position: relative;
+    z-index: 1;
   }
 
   &__items {
@@ -378,3 +380,10 @@ body {
   }
 }
 
+.pizza-card {
+  display: flex;
+  justify-content: center;
+  img, h4 {
+    pointer-events: none;
+  }
+}
