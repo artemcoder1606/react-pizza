@@ -3,10 +3,12 @@ import LogoImg from "../img/pizza-logo.svg";
 import { NavLink } from "react-router";
 import { Search } from "./Search";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router";
 
 export const Header = ({searchValue, setSearchValue}) => {
   const {items, totalPrice} = useSelector(state => state.cart)
   const pizzasCount = items.reduce((sum, obj) => obj.count + sum, 0)
+  const location = useLocation();
   return (
     <div className="header">
       <div className="container">
@@ -19,6 +21,7 @@ export const Header = ({searchValue, setSearchValue}) => {
         </NavLink>
         <Search searchValue={searchValue} setSearchValue={setSearchValue} />
         <div className="header__cart">
+          {location.pathname !== '/cart' &&
           <NavLink to="/cart" className="button button--cart">
             <span>{totalPrice} ₽</span>
             <div className="button__delimiter"></div>
@@ -52,7 +55,7 @@ export const Header = ({searchValue, setSearchValue}) => {
               />
             </svg>
             <span>{pizzasCount}</span>
-          </NavLink>
+          </NavLink>}
         </div>
       </div>
     </div>

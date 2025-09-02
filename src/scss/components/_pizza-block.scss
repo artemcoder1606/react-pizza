@@ -3,9 +3,13 @@
 .pizza-block {
   width: 280px;
   text-align: center;
-
+   
   &__image {
     width: 260px;
+    transition: all .4s;
+    &:hover {
+      rotate: 45deg;
+    }
   }
 
   &__title {
@@ -13,6 +17,12 @@
     font-weight: 900;
     letter-spacing: 1%;
     margin-bottom: 20px;
+    transition: all .3s;
+    position: relative;
+    z-index: 1;
+    &:hover {
+        color: #fe5f1e;      
+    }
   }
 
   &__selector {
@@ -52,6 +62,8 @@
     align-items: center;
     justify-content: space-between;
     margin-top: 20px;
+    position: relative;
+    z-index: 1;
   }
 
   &__price {
