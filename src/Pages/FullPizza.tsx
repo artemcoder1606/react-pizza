@@ -4,7 +4,15 @@ import axios from "axios";
 import { PizzaBlock } from "../components/PizzaBlock";
 
 export const FullPizza = () => {
-  const [pizza, setPizza] = React.useState();
+  const [pizza, setPizza] = React.useState<{
+    title: string,
+    imageUrl: string,
+    sizes: [number],
+    types: [number],
+    price: number,
+    id: number
+
+   }>();
   const { id } = useParams();
   const navigate = useNavigate();
 

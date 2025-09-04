@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import qs from "qs";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
@@ -104,7 +103,7 @@ export const Home = () => {
         {status === "failed" ? (
           <div className="content__error">
             <h2>
-              По вашему запросу питс не найдено <icon>😕</icon>
+              По вашему запросу питс не найдено😕
             </h2>
             <p>
              Скорей всего, произошла какая-то чудовичная ошибка
