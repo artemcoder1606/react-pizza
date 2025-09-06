@@ -14,25 +14,28 @@ import Skeleton from "../components/PizzaBlock/Skeleton";
 import { Pagination } from "../components/Pagination";
 import { SearchContext } from "../App";
 import { fetchPizzas } from "../redux/slices/pizzaSlice";
+import { selectFilter } from "../redux/slices/filterSlice";
+import { selectPizza } from "../redux/slices/pizzaSlice";
 
-export const Home = () => {
+export const Home:React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
   const { categoryId, sort, currentPage } = useSelector(
-    (state) => state.filter
+     selectFilter
   );
-  const { items, status } = useSelector((state) => state.pizza);
+  const { items, status } = useSelector(selectPizza);
 
   const sortType = sort.sortProperty;
 
-  const { searchValue } = React.useContext(SearchContext);
+ //@ts-ignore
+  const   { searchValue  } = React.useContext(SearchContext);
 
-  const onChangeCategory = (id) => {
+  const onChangeCategory = (id:number) => {
     dispatch(setCategoryId(id));
   };
-  const changeCurrentPage = (id) => {
+  const changeCurrentPage = (id:number) => {
     dispatch(setCurrentPage(id));
   };
 
@@ -43,6 +46,7 @@ export const Home = () => {
     const sortBy = `${sortType}`.replace("-", "");
 
     dispatch(
+      //@ts-ignore
       fetchPizzas({
         order,
         search,
@@ -87,7 +91,7 @@ export const Home = () => {
     isMounted.current = true;
   }, [categoryId, sort, searchValue, currentPage]);
 
-  const pizzas = items.map((obj, index) => <PizzaBlock {...obj} key={index} />);
+  const pizzas = items.map((obj:any, index:number) => <PizzaBlock {...obj} key={index} />);
 
   return (
     <div className="content">
@@ -118,6 +122,7 @@ export const Home = () => {
         )}
 
         <Pagination
+         //@ts-ignore
           currentPage={currentPage}
           changeCurrentPage={changeCurrentPage}
         />
