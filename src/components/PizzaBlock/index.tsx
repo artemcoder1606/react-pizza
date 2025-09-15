@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addItem } from "../../redux/slices/cartSlice";
+import { addItem, CartItem } from "../../redux/slices/cartSlice";
 import { NavLink } from "react-router";
 import { selectCart } from "../../redux/slices/cartSlice";
 
@@ -27,18 +27,18 @@ export const PizzaBlock: React.FC<PizzaTypes> = ({
   const dispatch = useDispatch();
   const { items } = useSelector(selectCart);
 
-  const addedPizzas = items.find((obj:PizzaTypes) => obj.id === id);
-  const addedCount = addedPizzas ? addedPizzas.count : "";
+  const addedPizzas = items.find((obj: CartItem ) => obj.id === id);
+  const addedCount = addedPizzas ? addedPizzas.count : 0;
 
   const clickToAddItem = () => {
-    const obj = {
+    const obj: CartItem = {
       title,
-      types,
       size: sizes[activeSize],
       type: typeNames[activeType],
       price,
       imageUrl,
       id,
+      count: 0
     };
     dispatch(addItem(obj));
   };

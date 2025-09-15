@@ -6,7 +6,7 @@ import {
   setCategoryId,
   setCurrentPage,
   setFilters,
-} from "../redux/slices/filterSlice";
+} from "../redux/slices/FilterSlice";
 import { Categories } from "../components/Categories";
 import { PizzaBlock } from "../components/PizzaBlock";
 import { list, Sort } from "../components/Sort";
@@ -14,12 +14,13 @@ import Skeleton from "../components/PizzaBlock/Skeleton";
 import { Pagination } from "../components/Pagination";
 import { SearchContext } from "../App";
 import { fetchPizzas } from "../redux/slices/pizzaSlice";
-import { selectFilter } from "../redux/slices/filterSlice";
+import { selectFilter } from "../redux/slices/FilterSlice";
 import { selectPizza } from "../redux/slices/pizzaSlice";
+import { useAppDispatch } from "../redux/store";
 
 export const Home:React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
   const { categoryId, sort, currentPage } = useSelector(
@@ -46,13 +47,12 @@ export const Home:React.FC = () => {
     const sortBy = `${sortType}`.replace("-", "");
 
     dispatch(
-      //@ts-ignore
       fetchPizzas({
         order,
         search,
         category,
         sortBy,
-        currentPage,
+        currentPage: String(currentPage),
       })
     );
   };
@@ -110,7 +110,7 @@ export const Home:React.FC = () => {
               По вашему запросу питс не найдено😕
             </h2>
             <p>
-             Скорей всего, произошла какая-то чудовичная ошибка
+             Скорей всего, произошла какая-то чудовищная ошибка
             </p>
           </div>
         ) : (
